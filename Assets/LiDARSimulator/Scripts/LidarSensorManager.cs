@@ -1,11 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Pool;
-using RGLUnityPlugin;
 using AWSIM;
-using UnityEngine.Serialization;
 
+[Serializable]
 public class LidarSensorManager : MonoBehaviour
 {
     [SerializeField] private RglLidarPublisher _sensorPrefab;
@@ -25,8 +25,19 @@ public class LidarSensorManager : MonoBehaviour
         get => _activeSensors.Count;
         set 
         {
-            AdjustSensorCount(value);
+            AdjustSensorCount(value, out _);
         }
+    }
+
+    public RglLidarPublisher GetSensor()
+    {
+        AdjustSensorCount(ActiveSensorCount + 1, out RglLidarPublisher sensor);
+        return sensor;
+    }
+
+    public void ReturnSensor(RglLidarPublisher sensor)
+    {
+        OnReleaseToPool(sensor);
     }
 
     private void Awake()
@@ -53,14 +64,6 @@ public class LidarSensorManager : MonoBehaviour
 
     private void OnGetFromPool(RglLidarPublisher sensor)
     {
-        Transform targetTransform = _candidateTransforms.Dequeue();
-        
-        if (targetTransform != null)
-        {
-            sensor.transform.SetParent(targetTransform);
-            sensor.transform.localPosition = Vector3.zero;
-        }
-
         sensor.gameObject.SetActive(true);
         _activeSensors.Add(sensor);
         
@@ -78,14 +81,21 @@ public class LidarSensorManager : MonoBehaviour
     {
         Destroy(sensor.gameObject);
     }
+    
+    public void SetSensorParent(RglLidarPublisher sensor, Transform parentTransform)
+    {
+        sensor.transform.SetParent(parentTransform);
+        sensor.transform.localPosition = Vector3.zero;
+    }
 
-    private void AdjustSensorCount(int targetCount)
+    private void AdjustSensorCount(int targetCount, out RglLidarPublisher sensor)
     {
         targetCount = Mathf.Clamp(targetCount, 0, _maxSensorLimit);
 
         while (_activeSensors.Count < targetCount)
         {
-            _sensorPool.Get();
+            sensor = _sensorPool.Get();
+            SetSensorParent(sensor, _candidateTransforms.Dequeue());
         }
 
         while (_activeSensors.Count > targetCount)
@@ -93,7 +103,9 @@ public class LidarSensorManager : MonoBehaviour
             RglLidarPublisher sensorToRelease = _activeSensors.Single();
             _sensorPool.Release(sensorToRelease);
             _activeSensors.Remove(sensorToRelease);
+            sensor = null;
         }
+        sensor = null;
     }
 
     public void ReleaseAllSensors()
