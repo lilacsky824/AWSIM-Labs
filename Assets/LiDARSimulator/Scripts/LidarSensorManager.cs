@@ -4,16 +4,16 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Pool;
 using AWSIM;
+using UnityEngine.Serialization;
 
 [Serializable]
 public class LidarSensorManager : MonoBehaviour
 {
     [SerializeField] private RglLidarPublisher _sensorPrefab;
+    [SerializeField, Range(0, 1)] private float _activeSensorRatio = 0.2f;
     [SerializeField] private int _maxSensorLimit = 10;
-    [SerializeField] private Transform _targetTransform;
-    /// <summary>
-    /// Only first Publisher will be set.
-    /// </summary>
+    [SerializeField] private Transform[] _targetTransforms;
+    
     [SerializeField] private string _publisherTopicName = "lidar/pointcloud_sim_";
 
     private ObjectPool<RglLidarPublisher> _sensorPool;
@@ -23,10 +23,7 @@ public class LidarSensorManager : MonoBehaviour
     public int ActiveSensorCount
     {
         get => _activeSensors.Count;
-        set 
-        {
-            AdjustSensorCount(value, out _);
-        }
+        set { AdjustSensorCount(value, out _); }
     }
 
     public RglLidarPublisher GetSensor()
@@ -49,9 +46,9 @@ public class LidarSensorManager : MonoBehaviour
             actionOnDestroy: OnDestroyPoolObject,
             maxSize: _maxSensorLimit
         );
-        
-        _candidateTransforms = TransformUtility.FindTransformsByName(_targetTransform.name).ToQueue();
-        
+
+        _candidateTransforms = TransformUtility.FindTransformsByName(_targetTransforms.name).ToQueue();
+
         ActiveSensorCount = _maxSensorLimit;
     }
 
@@ -66,7 +63,7 @@ public class LidarSensorManager : MonoBehaviour
     {
         sensor.gameObject.SetActive(true);
         _activeSensors.Add(sensor);
-        
+
         sensor.pointCloud2Publishers[0].topic = _publisherTopicName + (uint)sensor.GetInstanceID();
     }
 
@@ -81,7 +78,7 @@ public class LidarSensorManager : MonoBehaviour
     {
         Destroy(sensor.gameObject);
     }
-    
+
     public void SetSensorParent(RglLidarPublisher sensor, Transform parentTransform)
     {
         sensor.transform.SetParent(parentTransform);
@@ -105,6 +102,7 @@ public class LidarSensorManager : MonoBehaviour
             _activeSensors.Remove(sensorToRelease);
             sensor = null;
         }
+
         sensor = null;
     }
 
@@ -115,6 +113,7 @@ public class LidarSensorManager : MonoBehaviour
         {
             _sensorPool.Release(sensor);
         }
+
         _activeSensors.Clear();
     }
 
