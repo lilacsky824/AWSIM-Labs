@@ -628,7 +628,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sensorPrefab: {fileID: 3868058207722998604, guid: 69fd4ccc0dd253e439d2c2ce99c8d64d, type: 3}
   _activeSensorRatio: 0.2
-  _maxSensorLimit: 10
+  _maxSensorLimit: 2
   _targetTransforms:
   - {fileID: 2448355513943223630}
   - {fileID: 391288936}
@@ -2111,7 +2111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b6bc45ffe9621d40a590102ed1abe43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _agentSpawnMessagePublisher:
+  AgentSpawnMessagePublisher:
     _spawnTopicName: /simulation/dummy_perception_publisher/object_info
 --- !u!114 &1572435374
 MonoBehaviour:
@@ -2120,12 +2120,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1572435371}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f5e8f35504344de7b9ffd8d86ea94b39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _modelFilePath: SampleModel.glb
+  _modelRoot: {fileID: 0}
 --- !u!1001 &1579570885
 PrefabInstance:
   m_ObjectHideFlags: 0

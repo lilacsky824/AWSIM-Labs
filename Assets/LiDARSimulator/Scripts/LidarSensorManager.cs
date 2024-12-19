@@ -15,11 +15,10 @@ namespace LiDARSimulator
         [SerializeField] private LidarSensor _sensorPrefab;
         [SerializeField, Range(0, 1)] private float _activeSensorRatio = 0.2f;
         [SerializeField] private int _maxSensorLimit = 10;
-        /// <summary>
-        /// Not sure how to determine the position of the LiDAR sensor, so for now, it will be placed manually.
-        /// </summary>
+        
+        ///TODO: Not sure how to determine the position of the LiDAR sensor, so for now, it will be placed manually.
         [SerializeField] private Transform[] _targetTransforms;
-
+        ///TODO: How to sync topic name to ROS2 packages? Via sending ROS2 messages?
         [SerializeField] private string _pointCloudTopicName = "lidar/pointcloud_sim_";
 
         private ObjectPool<LidarSensor> _sensorPool;

@@ -1,5 +1,6 @@
 using UnityEngine;
 using RGLUnityPlugin;
+using UnityEngine.Serialization;
 
 namespace LiDARSimulator
 {
@@ -11,8 +12,8 @@ namespace LiDARSimulator
             Vehicle
         }
 
-        [field: SerializeField] public LidarSensorManager SensorManager { get; } = new LidarSensorManager();
-        [field: SerializeField] public AgentSpawnMessagePublisher _agentSpawnMessagePublisher = new AgentSpawnMessagePublisher();
+        [field: SerializeField] public LidarSensorManager SensorManager { get; } = new();
+        [field: SerializeField] public AgentSpawnMessagePublisher AgentSpawnMessagePublisher = new();
 
         public LidarSensor GetLidarSensor()
         {
@@ -22,6 +23,12 @@ namespace LiDARSimulator
         public void ReleaseLidarSensor(LidarSensor sensor)
         {
             SensorManager.ReturnSensor(sensor);
+        }
+
+        public void SetLidarSensorTransform(LidarSensor sensor, Vector3 worldPosition, Vector3 worldRotation)
+        {
+            sensor.transform.position = worldPosition;
+            sensor.transform.rotation = Quaternion.Euler(worldRotation);
         }
     }
 }
