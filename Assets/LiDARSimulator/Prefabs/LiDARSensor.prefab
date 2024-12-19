@@ -162,7 +162,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4234831739006619833, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
       propertyPath: m_Name
-      value: HesaiAT128E2X Variant
+      value: LiDARSensor
+      objectReference: {fileID: 0}
+    - target: {fileID: 5823733368168859464, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: pointCloud2Publishers.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9115279251508973176, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
       propertyPath: pointShape
