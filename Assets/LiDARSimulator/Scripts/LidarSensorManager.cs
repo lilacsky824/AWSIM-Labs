@@ -33,11 +33,15 @@ namespace LiDARSimulator
 
         public float ActiveSensorRatio
         {
-            get => _activeSensorRatio;
+            get
+            {
+                _activeSensorRatio = ActiveSensorCount / (float)_maxSensorLimit;
+                return _activeSensorRatio; 
+            }
             set
             {
                 _activeSensorRatio = value;
-                ActiveSensorCount = Mathf.RoundToInt(_maxSensorLimit * ActiveSensorRatio);
+                ActiveSensorCount = Mathf.RoundToInt(_maxSensorLimit * _activeSensorRatio);
             }
         }
 
@@ -67,13 +71,18 @@ namespace LiDARSimulator
             ActiveSensorRatio = _activeSensorRatio;
         }
 
+        /// <summary>
+        /// TODO: Fix lidar's point cloud's transform is not handle properly.
+        /// Seems we need to recreate publisher to handle sensor toggling properly?
+        /// <seealso cref="AWSIM.Scripts.UI.SensorToggleFunctions"/>>
+        /// </summary>
         private LidarSensor CreateSensor()
         {
             LidarSensor newSensor = Instantiate(_sensorPrefab);
             RglLidarPublisher publisher = newSensor.GetComponent<RglLidarPublisher>();
+            newSensor.gameObject.SetActive(false);
             // Assign a unique id to prevent topic id conflict.
             publisher.pointCloud2Publishers[0].topic = _pointCloudTopicName + (uint)newSensor.GetInstanceID();
-            newSensor.gameObject.SetActive(false);
             return newSensor;
         }
 
