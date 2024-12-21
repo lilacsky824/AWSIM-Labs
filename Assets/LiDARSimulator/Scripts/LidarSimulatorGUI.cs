@@ -129,12 +129,12 @@ namespace LiDARSimulator
             Debug.Log($"Spawn agent type {agentType} at {_lastHitWorldPosition} {_lastWorldRotation.eulerAngles}");
         }
 
-        void SpawnTrafficVehicleInFrontOfView(Vector3 hitWorldPosition)
-        {
-            bool success = _lidarSimulator.VehicleSpawner.SpawnVehicle(hitWorldPosition);
-            string result = success ? "Success" : "Failed";
-            Debug.Log($"Spawn agent type TrafficVehicle at {hitWorldPosition} {result}");
-        }
+        //void SpawnTrafficVehicleInFrontOfView(Vector3 hitWorldPosition)
+        //{
+        //    bool success = _lidarSimulator.VehicleSpawner.SpawnVehicle(hitWorldPosition);
+        //    string result = success ? "Success" : "Failed";
+        //    Debug.Log($"Spawn agent type TrafficVehicle at {hitWorldPosition} {result}");
+        //}
 
         void DrawSetVehicleAmountButton(int amount)
         {
