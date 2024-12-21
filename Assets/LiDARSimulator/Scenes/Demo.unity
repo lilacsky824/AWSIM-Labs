@@ -358,6 +358,179 @@ MonoBehaviour:
   _maxSensorLimit: 10
   _targetTransform: {fileID: 0}
   _publisherTopicName: lidar/pointcloud_sim_
+--- !u!1001 &243714170
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 953008189}
+    m_Modifications:
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: modelPreset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: configuration
+      value: 7682108923210891264
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264]
+      value: Assembly-CSharp RGLUnityPlugin.UniformRangeLidarConfiguration
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264].maxRange
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264].minRange
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264].maxHAngle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264].minHAngle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264].beamDivergence
+      value: 0.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264].laserArrayCycleTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264].horizontalResolution
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264]._laserArray.focalDistanceMm
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264].noiseParams.angularNoiseMean
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264].noiseParams.angularNoiseType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264]._laserArray.lasers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264].noiseParams.angularNoiseStDev
+      value: 0.057295784
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264].noiseParams.distanceNoiseMean
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264].noiseParams.distanceNoiseStDevBase
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264]._laserArray.lasers.Array.data[0].ringId
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264]._laserArray.lasers.Array.data[0].maxRange
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264]._laserArray.lasers.Array.data[0].minRange
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264].noiseParams.distanceNoiseStDevRisePerMeter
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264]._laserArray.lasers.Array.data[0].timeOffset
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264]._laserArray.centerOfMeasurementLinearOffsetMm.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264]._laserArray.centerOfMeasurementLinearOffsetMm.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264]._laserArray.centerOfMeasurementLinearOffsetMm.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264]._laserArray.lasers.Array.data[0].verticalLinearOffsetMm
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264]._laserArray.lasers.Array.data[0].verticalAngularOffsetDeg
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1581152263907125302, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: managedReferences[7682108923210891264]._laserArray.lasers.Array.data[0].horizontalAngularOffsetDeg
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571061669704124931, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 231.10023
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571061669704124931, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.8998184
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571061669704124931, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -285.92224
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571061669704124931, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.93310314
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571061669704124931, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.22057624
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571061669704124931, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.27639782
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571061669704124931, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.06533767
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571061669704124931, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571061669704124931, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571061669704124931, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4234831739006619833, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: m_Name
+      value: HesaiAT128E2X
+      objectReference: {fileID: 0}
+    - target: {fileID: 9115279251508973176, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+      propertyPath: pointShape
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
 --- !u!1 &505125244
 GameObject:
   m_ObjectHideFlags: 0
@@ -837,6 +1010,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1616818740}
   - {fileID: 1389422805}
   - {fileID: 30992401}
   m_Father: {fileID: 0}
@@ -1131,6 +1305,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b6bc45ffe9621d40a590102ed1abe43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1616818740 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3571061669704124931, guid: 6ae91458b98f63ddba357afdb0be727f, type: 3}
+  m_PrefabInstance: {fileID: 243714170}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1737080524
 GameObject:
   m_ObjectHideFlags: 0
