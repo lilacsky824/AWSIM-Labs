@@ -2190,6 +2190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b6bc45ffe9621d40a590102ed1abe43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _trafficManager: {fileID: 1952838690}
   _sensorManager: {fileID: 225415123}
   _agentSpawnMessagePublisher:
     _spawnTopicName: /simulation/dummy_perception_publisher/object_info

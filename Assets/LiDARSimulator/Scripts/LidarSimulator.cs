@@ -1,4 +1,5 @@
 using AWSIM;
+using AWSIM.TrafficSimulation;
 using UnityEngine;
 using RGLUnityPlugin;
 using UnityEngine.Serialization;
@@ -15,7 +16,9 @@ namespace LiDARSimulator
         
         public LidarSensorManager SensorManager => _sensorManager;
         public AgentSpawnMessagePublisher AgentSpawnMessagePublisher => _agentSpawnMessagePublisher;
+        public TrafficManager TrafficManager => _trafficManager;
 
+        [SerializeField] private TrafficManager _trafficManager;
         [SerializeField] private LidarSensorManager _sensorManager;
         [SerializeField] private AgentSpawnMessagePublisher _agentSpawnMessagePublisher;
 
