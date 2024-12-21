@@ -1,9 +1,5 @@
 using System;
-using System.Threading.Tasks;
-using Unity.Mathematics;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Serialization;
 using VehiclePhysics;
 
 namespace LiDARSimulator
@@ -12,10 +8,13 @@ namespace LiDARSimulator
     {
         [SerializeField] private LidarSimulator _lidarSimulator;
         [SerializeField] private VPCameraController _cameraController;
-        [SerializeField, Range(0, 256)] private uint _targetSize = 20;
+        [SerializeField, Range(0, 2)] private float _targetSize = 20;
 
         private Camera _mainCamera;
         private GUIStyle _guiStyle;
+        private bool _isHit;
+        private Vector3 _lastHitWorldPosition;
+        private Quaternion _lastWorldRotation;
 
         private void Awake()
         {
@@ -27,7 +26,10 @@ namespace LiDARSimulator
             }
 
             _guiStyle = new GUIStyle();
-            _guiStyle.normal.background = Texture2D.grayTexture;
+            Texture2D backgroundTexture = new Texture2D(1, 1);
+            backgroundTexture.SetPixel(0, 0, new Color(0, 0, 0, 0.33f));
+            backgroundTexture.Apply();
+            _guiStyle.normal.background = backgroundTexture;
         }
 
         void Update()
@@ -36,6 +38,9 @@ namespace LiDARSimulator
             {
                 _cameraController.enabled = !_cameraController.enabled;
             }
+
+            _isHit = GetRaycastTargetFromCameraForward();
+            _lastWorldRotation = Quaternion.AngleAxis(_mainCamera.transform.rotation.eulerAngles.y, Vector3.up);
         }
 
         void OnGUI()
@@ -45,7 +50,14 @@ namespace LiDARSimulator
             GUILayout.Label("WSAD to move, Q to ascend, E to descend");
             GUILayout.Label("Esc to toggle camera movement");
 
+            GUILayout.Space(8);
+
+            GUILayout.BeginVertical(_guiStyle);
             GUILayout.Label("Lidar Sensor Management");
+            string label = _lidarSimulator.SensorManager.ActiveSensorRatio >= 1
+                ? "Reach Maximum"
+                : _lidarSimulator.SensorManager.ActiveSensorRatio.ToString();
+            GUILayout.Label($"Lidar Sensor Amount {_lidarSimulator.SensorManager.ActiveSensorCount} {label}");
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Add Lidar Sensor"))
             {
@@ -58,64 +70,63 @@ namespace LiDARSimulator
             }
 
             GUILayout.EndHorizontal();
+            GUILayout.EndVertical();
 
-            bool isHit = GetRaycastTargetFromCameraForward(out Vector3 hitWorldPosition);
-            Quaternion rotation = Quaternion.AngleAxis(_mainCamera.transform.rotation.eulerAngles.y, Vector3.up);
+            GUILayout.Space(8);
+
+            GUILayout.BeginVertical(_guiStyle);
             GUILayout.Label("Spawn Agent in front of view");
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Pedestrian") && isHit)
+            if (GUILayout.Button("Pedestrian") && _isHit)
             {
-                SpawnAgentInFrontOfView(LidarSimulator.AgentType.Pedestrian, hitWorldPosition, rotation);
+                SpawnAgentInFrontOfView(LidarSimulator.AgentType.Pedestrian);
             }
 
-            if (GUILayout.Button("Vehicle") && isHit)
+            if (GUILayout.Button("Vehicle") && _isHit)
             {
-                SpawnAgentInFrontOfView(LidarSimulator.AgentType.Vehicle, hitWorldPosition, rotation);
+                SpawnAgentInFrontOfView(LidarSimulator.AgentType.Vehicle);
             }
-
-            if (GUILayout.Button("Traffic Vehicle") && isHit)
-            {
-                SpawnTrafficVehicleInFrontOfView(hitWorldPosition);
-            }
-
             GUILayout.EndHorizontal();
+            GUILayout.EndVertical();
+
+            GUILayout.Space(8);
+
+            label = _lidarSimulator.TrafficManager.targetVehicleCount >= _lidarSimulator.TrafficManager.maxVehicleCount
+                ? "Reach Maximum"
+                : string.Empty;
+            GUILayout.BeginVertical(_guiStyle);
+            GUILayout.Label($"Traffic Vehicle Amount {_lidarSimulator.TrafficManager.transform.childCount} {label}");
+            GUILayout.Label("Set Vehicle Amount");
+            GUILayout.BeginHorizontal();
+            DrawSetVehicleAmountButton(10);
+            DrawSetVehicleAmountButton(20);
+            DrawSetVehicleAmountButton(50);
+            DrawSetVehicleAmountButton(100);
+            GUILayout.EndHorizontal();
+            GUILayout.EndVertical();
 
             GUILayout.EndVertical();
         }
 
-        bool GetRaycastTargetFromCameraForward(out Vector3 hitWorldPosition)
+        bool GetRaycastTargetFromCameraForward()
         {
             Ray ray = new Ray(_mainCamera.transform.position, _mainCamera.transform.forward);
             if (Physics.Raycast(ray, out RaycastHit hitInfo))
             {
                 Vector3 hitPoint = hitInfo.point;
-
-                Handles.color = Color.green;
-                Handles.DrawLine(ray.origin, hitPoint);
-
-                float handleWorldSize =
-                    HandleUtility.GetHandleSize(hitPoint) * ((float)_targetSize / Screen.height);
-
-                Handles.SphereHandleCap(0, hitPoint, Quaternion.identity, handleWorldSize, EventType.Repaint);
-
-                hitWorldPosition = hitPoint;
+                _lastHitWorldPosition = hitPoint;
                 return true;
             }
-            else
-            {
-                Handles.color = Color.red;
-                Handles.DrawLine(ray.origin, ray.origin + _mainCamera.transform.forward * Single.MaxValue);
-            }
 
-            hitWorldPosition = Vector3.zero;
+            //_lastHitWorldPosition = Vector3.zero;
             return false;
         }
 
-        void SpawnAgentInFrontOfView(LidarSimulator.AgentType agentType, Vector3 hitWorldPosition,
-            Quaternion worldRotation)
+        void SpawnAgentInFrontOfView(LidarSimulator.AgentType agentType)
         {
-            _lidarSimulator.AgentSpawnMessagePublisher.SpawnAgent(agentType, hitWorldPosition, worldRotation, 2);
-            Debug.Log($"Spawn agent type {agentType} at {hitWorldPosition} {worldRotation.eulerAngles}");
+            _lidarSimulator.AgentSpawnMessagePublisher.SpawnAgent(agentType, _lastHitWorldPosition, _lastWorldRotation,
+                2);
+            Debug.Log($"Spawn agent type {agentType} at {_lastHitWorldPosition} {_lastWorldRotation.eulerAngles}");
         }
 
         void SpawnTrafficVehicleInFrontOfView(Vector3 hitWorldPosition)
@@ -123,6 +134,40 @@ namespace LiDARSimulator
             bool success = _lidarSimulator.VehicleSpawner.SpawnVehicle(hitWorldPosition);
             string result = success ? "Success" : "Failed";
             Debug.Log($"Spawn agent type TrafficVehicle at {hitWorldPosition} {result}");
+        }
+
+        void DrawSetVehicleAmountButton(int amount)
+        {
+            if (GUILayout.Button(amount.ToString()))
+            {
+                SetVehicleAmount(amount);
+            }
+        }
+
+        void SetVehicleAmount(int amount)
+        {
+            _lidarSimulator.TrafficManager.targetVehicleCount = amount;
+            _lidarSimulator.TrafficManager.RestartTraffic();
+        }
+
+        public void OnDrawGizmos()
+        {
+            if (!Application.isPlaying)
+                return;
+
+            Vector3 origin = _mainCamera.transform.position;
+            if (_isHit)
+            {
+                Gizmos.color = Color.green;
+                Gizmos.DrawLine(origin, _lastHitWorldPosition);
+
+                Gizmos.DrawSphere(_lastHitWorldPosition, _targetSize);
+            }
+            else
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawLine(origin, origin + _mainCamera.transform.forward * Single.MaxValue);
+            }
         }
     }
 }
