@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -15,15 +16,18 @@ namespace LiDARSimulator
         [SerializeField] private LidarSensor _sensorPrefab;
         [SerializeField, Range(0, 1)] private float _activeSensorRatio = 0.2f;
         [SerializeField] private int _maxSensorLimit = 10;
-        
+
         ///TODO: Not sure how to determine the position of the LiDAR sensor, so for now, it will be placed manually.
         [SerializeField] private Transform[] _targetTransforms;
-        ///TODO: How to sync topic name to ROS2 packages? Via sending ROS2 messages?
-        [SerializeField] private string _pointCloudTopicName = "lidar/pointcloud_sim_";
+
+        [SerializeField] private string _lidarTopicId = "lidar/pointcloud_sim";
+        [SerializeField] private string _lidarFrameId = "lidar";
 
         private ObjectPool<LidarSensor> _sensorPool;
         private readonly HashSet<LidarSensor> _activeSensors = new();
         private Queue<Transform> _candidateTransforms = new();
+
+        private LidarPublisherWorldTransformBroadcaster _transformBroadcaster;
 
         public int ActiveSensorCount
         {
@@ -36,7 +40,7 @@ namespace LiDARSimulator
             get
             {
                 _activeSensorRatio = ActiveSensorCount / (float)_maxSensorLimit;
-                return _activeSensorRatio; 
+                return _activeSensorRatio;
             }
             set
             {
@@ -69,20 +73,26 @@ namespace LiDARSimulator
             _candidateTransforms = new Queue<Transform>(_targetTransforms);
 
             ActiveSensorRatio = _activeSensorRatio;
+
+            _transformBroadcaster = new();
         }
 
-        /// <summary>
-        /// TODO: Fix lidar's point cloud's transform is not handle properly.
-        /// Seems we need to recreate publisher to handle sensor toggling properly?
-        /// <seealso cref="AWSIM.Scripts.UI.SensorToggleFunctions"/>>
-        /// </summary>
+        void Update()
+        {
+            //TODO: remove GetComponent frequently.
+            _transformBroadcaster.LidarPublishers =
+                _activeSensors.Select(sensor => sensor.GetComponent<RglLidarPublisher>()).ToArray();
+            _transformBroadcaster.PublishTransformMessage();
+        }
+
         private LidarSensor CreateSensor()
         {
             LidarSensor newSensor = Instantiate(_sensorPrefab);
             RglLidarPublisher publisher = newSensor.GetComponent<RglLidarPublisher>();
             newSensor.gameObject.SetActive(false);
             // Assign a unique id to prevent topic id conflict.
-            publisher.pointCloud2Publishers[0].topic = _pointCloudTopicName + (uint)newSensor.GetInstanceID();
+            publisher.pointCloud2Publishers[0].topic = _lidarTopicId + "_" + (uint)newSensor.GetInstanceID();
+            publisher.frameId = _lidarFrameId + "_" + (uint)newSensor.GetInstanceID();
             return newSensor;
         }
 

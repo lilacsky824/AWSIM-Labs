@@ -324,7 +324,10 @@ namespace RGLUnityPlugin
             sceneManager.DoUpdate(fixedUpdatesInCurrentFrame);
 
             // Set lidar pose
-            Matrix4x4 lidarPose = gameObject.transform.localToWorldMatrix * configuration.GetLidarOriginTransfrom();
+            Matrix4x4 lidarPose = gameObject.transform.localToWorldMatrix;
+            // If skip inverse translation then point cloud result with have world space translation.
+            //Matrix4x4 lidarPose = gameObject.transform.localToWorldMatrix * configuration.GetLidarOriginTransfrom();
+            //rglSubgraphToLidarFrame.UpdateNodePointsTransform(toLidarFrameNodeId, Matrix4x4.identity);
             rglGraphLidar.UpdateNodeRaysTransform(lidarPoseNodeId, lidarPose);
             rglSubgraphToLidarFrame.UpdateNodePointsTransform(toLidarFrameNodeId, lidarPose.inverse);
 

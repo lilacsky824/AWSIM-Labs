@@ -654,7 +654,8 @@ MonoBehaviour:
   - {fileID: 1662295070}
   - {fileID: 355910236}
   - {fileID: 31261939}
-  _pointCloudTopicName: lidar/pointcloud_sim_
+  _lidarTopicId: lidar/pointcloud_sim
+  _lidarFrameId: lidar
 --- !u!1001 &270493985
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2251,10 +2252,11 @@ MonoBehaviour:
   _agentSpawnMessagePublisher:
     _spawnTopicName: /simulation/dummy_perception_publisher/object_info
     _qosSettings:
-      ReliabilityPolicy: 0
-      DurabilityPolicy: 0
-      HistoryPolicy: 0
+      ReliabilityPolicy: 2
+      DurabilityPolicy: 2
+      HistoryPolicy: 1
       Depth: 0
+  _OFFSET: 0
 --- !u!114 &1572435374
 MonoBehaviour:
   m_ObjectHideFlags: 0
